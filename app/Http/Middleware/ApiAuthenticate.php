@@ -2,6 +2,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Libraries\Util;
 
 class ApiAuthenticate
 {
@@ -10,7 +11,7 @@ class ApiAuthenticate
         if ($request->bearerToken() === env('API_KEY')) {
             return $next($request);
         } else {
-            return response('Invalid access key');
+            return Util::responseJson(401, '8888', 'Invalid Access Key', []);
         }
     }
 }
