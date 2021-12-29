@@ -25,7 +25,7 @@ Route::middleware('auth.api')->group(function () {
     # 회원가입
     Route::post('/join', [MemberController::class, 'join']);
     # 회원 로그인(인증)
-    Route::get('/login', [LoginController::class, 'login']);
+    Route::post('/login', [LoginController::class, 'login']);
     # 회원 로그아웃
     Route::post('/logout', [LoginController::class, 'logout']);
     # 단일 회원 상세 정보 조회

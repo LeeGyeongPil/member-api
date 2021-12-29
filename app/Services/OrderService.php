@@ -14,12 +14,14 @@ class OrderService
         $this->ordersModel = $orders;
     }
 
+    # 주문목록
     public function list($member_idx)
     {
         try {
             return $this->ordersModel->select([
                     'order_no',
                     'product_name',
+                    'order_price',
                     'order_datetime',
                     'pay_datetime',
                 ])

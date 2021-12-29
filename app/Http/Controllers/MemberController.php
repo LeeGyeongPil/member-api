@@ -6,9 +6,7 @@ use App\Libraries\Util;
 use App\Http\Controllers\Controller;
 use App\Services\MemberService;
 use App\Services\OrderService;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
@@ -38,6 +36,7 @@ class MemberController extends Controller
      *  code        : 응답코드
      *  message     : 응답메세지
      *  data        : 
+     * 
      */
     public function join()
     {
@@ -97,7 +96,7 @@ class MemberController extends Controller
             $data = $this->memberService->show($member_idx);
             if (empty($data)) {
                 return Util::responseJson(200, '9998', 'No Data');
-            } elseif (is_array($data) === false) {
+            } elseif (is_string($data)) {
                 return Util::responseJson(500, '9999', $data);
             } else {
                 return Util::responseJson(200, '0000', 'Member Info Success', $data);
@@ -120,6 +119,7 @@ class MemberController extends Controller
      *  data                : 회원주문정보데이터
      *      order_no        : 주문번호
      *      product_name    : 상품명
+     *      order_price     : 주문금액
      *      order_datetime  : 주문일시
      *      pay_datetime    : 결제일시
      * 
