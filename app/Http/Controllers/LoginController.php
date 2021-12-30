@@ -63,7 +63,7 @@ class LoginController extends Controller
     }
 
     /*
-     * POST::/api/login
+     * POST::/api/logout
      * 로그아웃
      * 
      * @PARAMETER

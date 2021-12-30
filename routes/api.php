@@ -31,7 +31,7 @@ Route::middleware('auth.api')->group(function () {
     # 단일 회원 상세 정보 조회
     Route::get('/member/{member_idx}', [MemberController::class, 'memberDetail']);
     # 단일 회원의 주문 목록 조회
-    Route::get('/orders/{member_idx}', [MemberController::class, 'memberOrders']);
+    Route::get('/order/{member_idx}', [MemberController::class, 'memberOrders']);
     # 여러 회원 목록 조회
     Route::get('/member', [MemberController::class, 'memberList']);
 });
