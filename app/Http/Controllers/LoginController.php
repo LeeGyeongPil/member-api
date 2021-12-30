@@ -90,7 +90,7 @@ class LoginController extends Controller
             
             $result = $this->memberService->tokenValidation(request());
             if ($result === 0) {
-                return Util::responseJson(200, '2000', 'Login Fail');
+                return Util::responseJson(200, '2000', 'Logout Fail');
             } elseif (is_string($result)) {
                 return Util::responseJson(500, '9999', $result);
             } else {
