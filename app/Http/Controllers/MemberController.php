@@ -162,7 +162,12 @@ class MemberController extends Controller
      *      member_gender       : 성별 (M:남성, F:여성)
      *      join_datetime       : 회원가입일자
      *      last_login_datetime : 마지막로그인일자
-     *      last_order_datetime : 마지막주문일자
+     *      last_order          : 마지막주문정보
+     *          order_no        : 주문번호
+     *          product_name    : 상품명
+     *          order_price     : 주문금액
+     *          order_datetime  : 주문일자
+     *          pay_datetime    : 결제일자
      * 
      */
     public function memberList()
@@ -174,6 +179,9 @@ class MemberController extends Controller
             } elseif (is_array($data) === false) {
                 return Util::responseJson(500, '9999', $data);
             } else {
+                foreach ($data as $key => $val) {
+                    $data[$key]['last_order'] = $this->orderService->getLastOrder($val['member_idx']) ?? null;
+                }
                 return Util::responseJson(200, '0000', 'Member List Success', $data);
             }
         } catch (Exception $e) {

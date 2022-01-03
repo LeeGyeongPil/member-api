@@ -33,4 +33,23 @@ class OrderService
             return $e->getMessage();
         }
     }
+
+    # 마지막주문
+    public function getLastOrder($member_idx)
+    {
+        try {
+            return $this->ordersModel->select([
+                    'order_no',
+                    'product_name',
+                    'order_price',
+                    'order_datetime',
+                    'pay_datetime',
+                ])
+                ->where('member_idx', $member_idx)
+                ->orderBy('order_datetime', 'DESC')
+                ->first();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }

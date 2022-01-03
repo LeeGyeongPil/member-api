@@ -72,12 +72,8 @@ class MemberService
                     'Member.member_email',
                     'Member.member_gender',
                     'Member.join_datetime',
-                    'Member.last_login_datetime',
-                    DB::raw('Orders.order_datetime AS last_order_datetime'),
-                ])
-                ->leftJoin(DB::raw('(SELECT member_idx, MAX(order_datetime) AS order_datetime FROM Orders GROUP BY member_idx) AS Orders'), function($join) {
-                    $join->on('Orders.member_idx', '=', 'Member.member_idx');
-                });
+                    'Member.last_login_datetime'
+            ]);
 
             # 아이디 검색
             if (empty($request->id) === false) {
