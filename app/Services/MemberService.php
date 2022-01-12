@@ -3,6 +3,7 @@ namespace App\Services;
 
 use Exception;
 use App\Models\Member;
+use App\Models\Orders;
 use Illuminate\Support\Facades\DB;
 
 class MemberService
@@ -76,14 +77,17 @@ class MemberService
             ]);
 
             # 아이디 검색
-            if (empty($request->id) === false) {
-                $query = $query->where('member_id', 'like', '%' . $request->id . '%');
-            }
+            $query = $query->when($request->id, function($query, $role) {
+                return $query->where('member_id', 'like', '%' . $role . '%');
+            });
 
             # 이메일 검색
-            if (empty($request->email) === false) {
-                $query = $query->where('member_email', 'like', '%' . $request->email . '%');
-            }
+            $query = $query->when($request->email, function($query, $role) {
+                return $query->where('member_email', 'like', '%' . $role . '%');
+            });
+
+            # 가장 최근 주문
+            $query = $query->with('last_order');
 
             return $query->offset(self::PER_PAGE * ($request->input('page', 1) - 1))->limit(self::PER_PAGE)->get()->toArray();
         } catch (Exception $e) {

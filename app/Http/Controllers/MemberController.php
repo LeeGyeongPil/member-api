@@ -179,9 +179,9 @@ class MemberController extends Controller
             } elseif (is_array($data) === false) {
                 return Util::responseJson(500, '9999', $data);
             } else {
-                foreach ($data as $key => $val) {
-                    $data[$key]['last_order'] = $this->orderService->getLastOrder($val['member_idx']) ?? null;
-                }
+                #foreach ($data as $key => $val) {
+                #    $data[$key]['last_order'] = $this->orderService->getLastOrder($val['member_idx']) ?? null;
+                #}
                 return Util::responseJson(200, '0000', 'Member List Success', $data);
             }
         } catch (Exception $e) {
