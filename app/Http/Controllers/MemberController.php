@@ -56,15 +56,9 @@ class MemberController extends Controller
             }
 
             $result = $this->memberService->join(request());
-            if ($result === true) {
-                # 가입성공
-                return Util::responseJson(201, '0000', 'Member Join Success');
-            } else {
-                # 가입실패
-                return Util::responseJson(409, '9998', $result);
-            }
+            return Util::returnValidation($result, 'Member Join Success');
         } catch (Exception $e) {
-            return Util::responseJson(500, '9999', 'Internal Server Error :: ' . $e->getMessage(), []);
+            return Util::returnValidation($e->getMessage());
         }
     }
 
@@ -94,15 +88,9 @@ class MemberController extends Controller
     {
         try {
             $data = $this->memberService->show($member_idx);
-            if (empty($data)) {
-                return Util::responseJson(200, '9998', 'No Data');
-            } elseif (is_string($data)) {
-                return Util::responseJson(500, '9999', $data);
-            } else {
-                return Util::responseJson(200, '0000', 'Member Info Success', $data);
-            }
+            return Util::returnValidation($data, 'Member Info Success');
         } catch (Exception $e) {
-            return Util::responseJson(500, '9999', 'Internal Server Error :: ' . $e->getMessage(), []);
+            return Util::returnValidation($e->getMessage());
         }
     }
 
@@ -128,15 +116,9 @@ class MemberController extends Controller
     {
         try {
             $data = $this->orderService->list($member_idx);
-            if (empty($data)) {
-                return Util::responseJson(200, '9998', 'No Data');
-            } elseif (is_array($data) === false) {
-                return Util::responseJson(500, '9999', $data);
-            } else {
-                return Util::responseJson(200, '0000', 'Member Order List Success', $data);
-            }
+            return Util::returnValidation($data, 'Member Order List Success');
         } catch (Exception $e) {
-            return Util::responseJson(500, '9999', 'Internal Server Error :: ' . $e->getMessage(), []);
+            return Util::returnValidation($e->getMessage());
         }
     }
 
@@ -174,18 +156,9 @@ class MemberController extends Controller
     {
         try {
             $data = $this->memberService->list(request());
-            if (empty($data)) {
-                return Util::responseJson(200, '9998', 'No Data');
-            } elseif (is_array($data) === false) {
-                return Util::responseJson(500, '9999', $data);
-            } else {
-                #foreach ($data as $key => $val) {
-                #    $data[$key]['last_order'] = $this->orderService->getLastOrder($val['member_idx']) ?? null;
-                #}
-                return Util::responseJson(200, '0000', 'Member List Success', $data);
-            }
+            return Util::returnValidation($data, 'Member List Success');
         } catch (Exception $e) {
-            return Util::responseJson(500, '9999', 'Internal Server Error :: ' . $e->getMessage(), []);
+            return Util::returnValidation($e->getMessage());
         }
     }
 }

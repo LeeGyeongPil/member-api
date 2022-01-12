@@ -47,18 +47,14 @@ class LoginController extends Controller
             if ($validator->fails()) {
                 return Util::responseJson(400, '1000', $validator->errors()->first(), []);
             }
-            
+
             $data = $this->memberService->login(request());
-            if (empty($data)) {
-                return Util::responseJson(200, '2000', 'Login Fail');
-            } elseif (is_string($data)) {
-                return Util::responseJson(500, '9999', $data);
-            } else {
+            if (empty($data) === false && is_string($data) === false) {
                 $data['login_token'] = $this->memberService->tokenRefresh($data);
-                return Util::responseJson(200, '0000', 'Login Success', $data);
             }
+            return Util::returnValidation($data, 'Login Success', 'Login Fail');
         } catch (Exception $e) {
-            return Util::responseJson(500, '9999', 'Internal Server Error :: ' . $e->getMessage(), []);
+            return Util::returnValidation($e->getMessage());
         }
     }
 
@@ -89,16 +85,12 @@ class LoginController extends Controller
             }
             
             $result = $this->memberService->tokenValidation(request());
-            if ($result === 0) {
-                return Util::responseJson(200, '2000', 'Logout Fail');
-            } elseif (is_string($result)) {
-                return Util::responseJson(500, '9999', $result);
-            } else {
+            if ($result !== 0 && is_string($result) === false) {
                 $this->memberService->tokenDelete(request()->member_idx);
-                return Util::responseJson(200, '0000', 'Logout Success');
             }
+            return Util::returnValidation($result, 'Logout Success', 'Logout Fail');
         } catch (Exception $e) {
-            return Util::responseJson(500, '9999', 'Internal Server Error :: ' . $e->getMessage(), []);
+            return Util::returnValidation($e->getMessage());
         }
     }
 }

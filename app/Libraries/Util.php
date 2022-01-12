@@ -19,4 +19,25 @@ class Util
             JSON_UNESCAPED_UNICODE
         );
     }
+
+    public static function returnValidation($data, $successMsg, $failMsg = '')
+    {
+        if (empty($data)) {
+            return Util::responseJson(200, '9998', $failMsg ?: 'No Data');
+        }
+
+        if ($data === 0 && $failMsg) {
+            return Util::responseJson(200, '2000', $failMsg);
+        }
+
+        if ($data === true) {
+            return Util::responseJson(201, '0000', $successMsg);
+        }
+
+        if (is_string($data) || is_array($data) === false) {
+            return Util::responseJson(500, '9999', $failMsg ?: $data);
+        }
+
+        return Util::responseJson(200, '0000', $successMsg, $data);
+    }
 }
